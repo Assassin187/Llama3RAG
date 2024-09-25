@@ -7,8 +7,12 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 CUDA_device='cuda:1'
+
+# local file path
 Embedding_Model = '/home/ljf/LlamaFineTuning/embeddingmodel/multilingual-e5-large'
 LLM_Model = '/home/ljf/LlamaFineTuning/model/Meta-Llama-3-8B-Instruct'
+pdf_file_path = '/home/ljf/LlamaFineTuning/sourcefile/llama3train.pdf'
+store_path = '/home/ljf/LlamaFineTuning/embeddinghub/llama3train.faiss'
 
 # load pdf file.
 def load_single_file(file_path):
@@ -109,9 +113,6 @@ def ask(model, tokenizer: AutoTokenizer, promt, max_tokens=512):
 
 
 def main():
-    pdf_file_path = '/home/ljf/LlamaFineTuning/sourcefile/llama3train.pdf'
-    store_path = '/home/ljf/LlamaFineTuning/embeddinghub/llama3train.faiss'
-
     embedding_model = create_embedding_model(Embedding_Model)
     vector_store = load_or_create_store(store_path, pdf_file_path, embedding_model)
     model, tokenizer = load_llm(LLM_Model)
